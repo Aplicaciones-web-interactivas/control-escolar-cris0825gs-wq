@@ -7,6 +7,8 @@
                     <a href="/home" class="text-gray-600 hover:text-gray-800 {{ request()->is('home') ? 'font-semibold text-gray-900' : '' }}">Home</a>
                     <a href="/dashboard" class="text-gray-600 hover:text-gray-800 {{ request()->is('dashboard') ? 'font-semibold text-gray-900' : '' }}">Dashboard</a>
                     <a href="/materias" class="text-gray-600 hover:text-gray-800 {{ request()->is('materias') ? 'font-semibold text-gray-900' : '' }}">Materias</a>
+                    <a href="/horarios" class="text-gray-600 hover:text-gray-800 {{ request()->is('horarios') ? 'font-semibold text-gray-900' : '' }}">Horarios</a>
+                    <a href="/grupos" class="text-gray-600 hover:text-gray-800 {{ request()->is('grupos') ? 'font-semibold text-gray-900' : '' }}">Grupos</a>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Logout</button>
@@ -29,6 +31,8 @@
                 <a href="/home" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('home') ? 'font-semibold text-gray-900' : '' }}">Home</a>
                 <a href="/dashboard" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('dashboard') ? 'font-semibold text-gray-900' : '' }}">Dashboard</a>
                 <a href="/materias" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('materias') ? 'font-semibold text-gray-900' : '' }}">Materias</a>
+                <a href="/horarios" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('horarios') ? 'font-semibold text-gray-900' : '' }}">Horarios</a>
+                <a href="/grupos" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('grupos') ? 'font-semibold text-gray-900' : '' }}">Grupos</a>
                 <form action="{{ route('logout') }}" method="POST" class="mt-2">
                     @csrf
                     <button type="submit" class="w-full bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600">Logout</button>
