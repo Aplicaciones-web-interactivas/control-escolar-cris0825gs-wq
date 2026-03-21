@@ -35,3 +35,17 @@ Route::post('/grupos', [AdminController::class, 'saveGrupo']);
 Route::get('/grupos/{id}/edit', [AdminController::class, 'editGrupo'])->name('grupos.edit');
 Route::put('/grupos/{id}', [AdminController::class, 'updateGrupo'])->name('grupos.update');
 Route::delete('/grupos/{id}', [AdminController::class, 'deleteGrupo'])->name('grupos.delete');
+
+// Inscripciones
+Route::get('/inscripciones', [AdminController::class, 'indexInscripciones'])->name('inscripciones');
+Route::post('/inscripciones', [AdminController::class, 'saveInscripcion']);
+Route::get('/inscripciones/{id}/edit', [AdminController::class, 'editInscripcion'])->name('inscripciones.edit');
+Route::put('/inscripciones/{id}', [AdminController::class, 'updateInscripcion'])->name('inscripciones.update');
+Route::delete('/inscripciones/{id}', [AdminController::class, 'deleteInscripcion'])->name('inscripciones.delete');
+
+// Calificaciones
+Route::get('/calificaciones', [AdminController::class, 'indexCalificaciones'])->name('calificaciones');
+Route::post('/calificaciones', [AdminController::class, 'saveCalificacion']);
+Route::get('/calificaciones/{id}/edit', [AdminController::class, 'editCalificacion'])->name('calificaciones.edit');
+Route::put('/calificaciones/{id}', [AdminController::class, 'updateCalificacion'])->name('calificaciones.update');
+Route::delete('/calificaciones/{id}', [AdminController::class, 'deleteCalificacion'])->name('calificaciones.delete');

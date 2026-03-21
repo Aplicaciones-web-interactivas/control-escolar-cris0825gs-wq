@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class grupo extends Model
+class Grupo extends Model
 {
     protected $fillable = ['horario_id', 'nombre'];
 
     public function horario()
     {
-        return $this->belongsTo(horario::class);
+        return $this->belongsTo(Horario::class);
     }
 }

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class horario extends Model
+class Horario extends Model
 {
-    protected $fillable = ['user_id', 'materia_id', 'dia', 'hora_inicio', 'hora_fin'];
+    protected $fillable = ['user_id', 'materia_id', 'hora_inicio', 'hora_fin'];
 
     public function user()
     {
@@ -15,11 +15,11 @@ class horario extends Model
 
     public function materia()
     {
-        return $this->belongsTo(materia::class);
+        return $this->belongsTo(Materia::class);
     }
 
     public function grupos()
     {
-        return $this->hasMany(grupo::class);
+        return $this->hasMany(Grupo::class);
     }
 }

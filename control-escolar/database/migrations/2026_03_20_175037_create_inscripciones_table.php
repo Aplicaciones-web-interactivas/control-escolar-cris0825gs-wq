@@ -11,25 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('horarios', function (Blueprint $table) {
+        Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('user_id')->constrained();
-            $table->foreignId('materia_id')->constrained();
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('grupo_id')->constrained();
             $table->timestamps();
         });
     }
 
-    //Cada usuario se registra
-
     /**
      * Reverse the migrations.
-     * php artisan serve
      */
     public function down(): void
     {
-        Schema::dropIfExists('horarios');
+        Schema::dropIfExists('inscripciones');
     }
 };
-

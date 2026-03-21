@@ -9,6 +9,8 @@
                     <a href="/materias" class="text-gray-600 hover:text-gray-800 {{ request()->is('materias') ? 'font-semibold text-gray-900' : '' }}">Materias</a>
                     <a href="/horarios" class="text-gray-600 hover:text-gray-800 {{ request()->is('horarios') ? 'font-semibold text-gray-900' : '' }}">Horarios</a>
                     <a href="/grupos" class="text-gray-600 hover:text-gray-800 {{ request()->is('grupos') ? 'font-semibold text-gray-900' : '' }}">Grupos</a>
+                    <a href="/inscripciones" class="text-gray-600 hover:text-gray-800 {{ request()->is('inscripciones') ? 'font-semibold text-gray-900' : '' }}">Inscripciones</a>
+                    <a href="/calificaciones" class="text-gray-600 hover:text-gray-800 {{ request()->is('calificaciones') ? 'font-semibold text-gray-900' : '' }}">Calificaciones</a>
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Logout</button>
@@ -33,6 +35,8 @@
                 <a href="/materias" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('materias') ? 'font-semibold text-gray-900' : '' }}">Materias</a>
                 <a href="/horarios" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('horarios') ? 'font-semibold text-gray-900' : '' }}">Horarios</a>
                 <a href="/grupos" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('grupos') ? 'font-semibold text-gray-900' : '' }}">Grupos</a>
+                <a href="/inscripciones" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('inscripciones') ? 'font-semibold text-gray-900' : '' }}">Inscripciones</a>
+                <a href="/calificaciones" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('calificaciones') ? 'font-semibold text-gray-900' : '' }}">Calificaciones</a>
                 <form action="{{ route('logout') }}" method="POST" class="mt-2">
                     @csrf
                     <button type="submit" class="w-full bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600">Logout</button>

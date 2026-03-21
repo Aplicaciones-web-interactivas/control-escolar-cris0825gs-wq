@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-    <h1 class="text-2xl font-bold">Editar Horario</h1>
-    <p class="text-gray-600">Modifica los datos del horario</p>
+    <h1 class="text-2xl font-bold">Editar Calificación</h1>
+    <p class="text-gray-600">Modifica los datos de la calificación</p>
 
     @if(session('success'))
         <div class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
@@ -22,7 +22,7 @@
     @endif
 
     <div class="mt-6 bg-white shadow rounded-lg p-6">
-        <form action="{{ route('horarios.update', $horario->id) }}" method="POST">
+        <form action="{{ route('calificaciones.update', $calificacion->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -31,7 +31,7 @@
                     <select name="user_id" id="user_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                         <option value="">Seleccionar Usuario</option>
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ $horario->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" {{ $calificacion->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -40,22 +40,18 @@
                     <select name="materia_id" id="materia_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                         <option value="">Seleccionar Materia</option>
                         @foreach($materias as $materia)
-                            <option value="{{ $materia->id }}" {{ $horario->materia_id == $materia->id ? 'selected' : '' }}>{{ $materia->nombre }}</option>
+                            <option value="{{ $materia->id }}" {{ $calificacion->materia_id == $materia->id ? 'selected' : '' }}>{{ $materia->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div>
-                    <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora Inicio</label>
-                    <input type="time" name="hora_inicio" id="hora_inicio" value="{{ $horario->hora_inicio }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
-                </div>
-                <div>
-                    <label for="hora_fin" class="block text-sm font-medium text-gray-700">Hora Fin</label>
-                    <input type="time" name="hora_fin" id="hora_fin" value="{{ $horario->hora_fin }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    <label for="calificacion" class="block text-sm font-medium text-gray-700">Calificación</label>
+                    <input type="number" step="0.01" min="0" max="10" name="calificacion" id="calificacion" value="{{ $calificacion->calificacion }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                 </div>
             </div>
             <div class="mt-4 flex space-x-4">
-                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Actualizar Horario</button>
-                <a href="{{ route('horarios') }}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Cancelar</a>
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Actualizar Calificación</button>
+                <a href="{{ route('calificaciones') }}" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">Cancelar</a>
             </div>
         </form>
     </div>
