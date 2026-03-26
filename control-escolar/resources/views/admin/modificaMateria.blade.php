@@ -6,7 +6,7 @@
     <p class="text-gray-600">Modifica los datos de la materia</p>
 
     @if(session('success'))
-        <div class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+        <div id="alert-success" class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded transition-opacity duration-300">
             {{ session('success') }}
         </div>
     @endif
@@ -43,3 +43,19 @@
     </div>
 </div>
 @endsection
+
+<script>
+    // Ocultar mensajes de alerta automáticamente después de 4 segundos
+    document.addEventListener('DOMContentLoaded', function() {
+        const alertSuccess = document.getElementById('alert-success');
+        if (alertSuccess) {
+            setTimeout(function() {
+                alertSuccess.style.opacity = '0';
+                alertSuccess.style.transition = 'opacity 0.3s ease-out';
+                setTimeout(function() {
+                    alertSuccess.style.display = 'none';
+                }, 300);
+            }, 4000);
+        }
+    });
+</script>

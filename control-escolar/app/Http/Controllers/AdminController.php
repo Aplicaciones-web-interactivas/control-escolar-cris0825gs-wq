@@ -17,10 +17,21 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    public function indexMaterias()
+    public function indexMaterias(Request $request)
     {
-        $materias = Materia::all();
-        return view('admin.materias')->with('materias', $materias);
+        $query = Materia::query();
+        
+        // Filtrar por nombre si se proporcionó
+        if ($request->filled('filter_nombre')) {
+            $query->where('nombre', 'like', '%' . $request->input('filter_nombre') . '%');
+        }
+        
+        $materias = $query->get();
+        
+        // Obtener el nombre del filtro seleccionado
+        $nombreFiltro = $request->input('filter_nombre', '');
+        
+        return view('admin.materias')->with(['materias' => $materias, 'nombreFiltro' => $nombreFiltro]);
     }
 
     public function saveMateria(Request $request)
@@ -71,12 +82,38 @@ class AdminController extends Controller
     }
 
     // Horarios
-    public function indexHorarios()
+    public function indexHorarios(Request $request)
     {
-        $horarios = Horario::with('materia', 'user')->get();
+        $query = Horario::with('materia', 'user');
+
+        // Filtrar por usuario
+        if ($request->filled('filter_user_id')) {
+            $query->where('user_id', $request->input('filter_user_id'));
+        }
+
+        // Filtrar por materia
+        if ($request->filled('filter_materia_id')) {
+            $query->where('materia_id', $request->input('filter_materia_id'));
+        }
+
+        $horarios = $query->get();
         $materias = Materia::all();
         $users = User::all();
-        return view('admin.horarios')->with(['horarios' => $horarios, 'materias' => $materias, 'users' => $users]);
+
+        $usuarioFiltro = $request->input('filter_user', '');
+        $materiaFiltro = $request->input('filter_materia', '');
+        $userSeleccionado = $request->input('filter_user_id', '');
+        $materiaSeleccionada = $request->input('filter_materia_id', '');
+
+        return view('admin.horarios')->with([
+            'horarios' => $horarios,
+            'materias' => $materias,
+            'users' => $users,
+            'usuarioFiltro' => $usuarioFiltro,
+            'materiaFiltro' => $materiaFiltro,
+            'userSeleccionado' => $userSeleccionado,
+            'materiaSeleccionada' => $materiaSeleccionada,
+        ]);
     }
 
     public function saveHorario(Request $request)
@@ -194,12 +231,44 @@ class AdminController extends Controller
     }
 
     // Inscripciones
-    public function indexInscripciones()
+    public function indexInscripciones(Request $request)
     {
-        $inscripciones = Inscripcion::with('user', 'grupo')->get();
+        // Consulta base
+        $query = Inscripcion::with('user', 'grupo');
+        
+        // Filtrar por grupo si se proporcionó
+        if ($request->filled('filter_grupo_id')) {
+            $query->where('grupo_id', $request->input('filter_grupo_id'));
+        }
+        
+        // Filtrar por nombre de alumno si se proporcionó
+        if ($request->filled('filter_alumno')) {
+            $query->whereHas('user', function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->input('filter_alumno') . '%');
+            });
+        }
+        
+        $inscripciones = $query->get();
         $users = User::all();
         $grupos = Grupo::all();
-        return view('admin.inscripciones')->with(['inscripciones' => $inscripciones, 'users' => $users, 'grupos' => $grupos]);
+        
+        // Obtener los nombres de los filtros seleccionados
+        $grupoNombre = '';
+        $alumnoFiltro = $request->input('filter_alumno', '');
+        
+        if ($request->filled('filter_grupo_id')) {
+            $grupo = Grupo::find($request->input('filter_grupo_id'));
+            $grupoNombre = $grupo ? $grupo->nombre : '';
+        }
+        
+        return view('admin.inscripciones')->with([
+            'inscripciones' => $inscripciones, 
+            'users' => $users, 
+            'grupos' => $grupos,
+            'grupoNombre' => $grupoNombre,
+            'alumnoFiltro' => $alumnoFiltro,
+            'grupoSeleccionado' => $request->input('filter_grupo_id')
+        ]);
     }
 
     public function saveInscripcion(Request $request)
@@ -255,12 +324,76 @@ class AdminController extends Controller
     }
 
     // Calificaciones
-    public function indexCalificaciones()
+    public function indexCalificaciones(Request $request)
     {
-        $calificaciones = Calificacion::with('user', 'materia')->get();
-        $users = User::all();
+        // Obtener todos los grupos y materias
+        $grupos = Grupo::all();
         $materias = Materia::all();
-        return view('admin.calificaciones')->with(['calificaciones' => $calificaciones, 'users' => $users, 'materias' => $materias]);
+        
+        // Consulta base
+        $query = Calificacion::with('user', 'materia');
+        
+        // Filtrar por grupo si se proporcionó
+        if ($request->filled('filter_grupo_id')) {
+            $grupoId = $request->input('filter_grupo_id');
+            $query->whereHas('user.inscripciones', function($q) use ($grupoId) {
+                $q->where('grupo_id', $grupoId);
+            });
+        }
+        
+        // Filtrar por materia si se proporcionó
+        if ($request->filled('filter_materia_id')) {
+            $query->where('materia_id', $request->input('filter_materia_id'));
+        }
+        
+        // Filtrar por alumno si se proporcionó
+        if ($request->filled('filter_alumno_id')) {
+            $query->where('user_id', $request->input('filter_alumno_id'));
+        }
+        
+        $calificaciones = $query->get();
+        $users = User::all();
+        
+        // Obtener usuarios del grupo seleccionado para el formulario de registro y filtros
+        $grupoSeleccionado = $request->input('filter_grupo_id');
+        if ($grupoSeleccionado) {
+            $users = User::whereHas('inscripciones', function($q) use ($grupoSeleccionado) {
+                $q->where('grupo_id', $grupoSeleccionado);
+            })->get();
+        }
+        
+        // Obtener los nombres de los filtros seleccionados
+        $grupoNombre = '';
+        $materiaNombre = '';
+        $alumnoNombre = '';
+        
+        if ($grupoSeleccionado) {
+            $grupo = Grupo::find($grupoSeleccionado);
+            $grupoNombre = $grupo ? $grupo->nombre : '';
+        }
+        
+        if ($request->filled('filter_materia_id')) {
+            $materia = Materia::find($request->input('filter_materia_id'));
+            $materiaNombre = $materia ? $materia->nombre : '';
+        }
+        
+        if ($request->filled('filter_alumno_id')) {
+            $alumno = User::find($request->input('filter_alumno_id'));
+            $alumnoNombre = $alumno ? $alumno->clave_institucional . ' - ' . $alumno->name : '';
+        }
+        
+        return view('admin.calificaciones')->with([
+            'calificaciones' => $calificaciones,
+            'users' => $users,
+            'materias' => $materias,
+            'grupos' => $grupos,
+            'grupoSeleccionado' => $grupoSeleccionado,
+            'materiaSeleccionada' => $request->input('filter_materia_id'),
+            'alumnoSeleccionado' => $request->input('filter_alumno_id'),
+            'grupoNombre' => $grupoNombre,
+            'materiaNombre' => $materiaNombre,
+            'alumnoNombre' => $alumnoNombre
+        ]);
     }
 
     public function saveCalificacion(Request $request)

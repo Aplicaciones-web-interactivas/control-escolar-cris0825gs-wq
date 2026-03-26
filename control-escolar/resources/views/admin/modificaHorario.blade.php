@@ -6,7 +6,7 @@
     <p class="text-gray-600">Modifica los datos del horario</p>
 
     @if(session('success'))
-        <div class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+        <div id="alert-success" class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded transition-opacity duration-300">
             {{ session('success') }}
         </div>
     @endif
@@ -28,21 +28,23 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label for="user_id" class="block text-sm font-medium text-gray-700">Usuario</label>
-                    <select name="user_id" id="user_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
-                        <option value="">Seleccionar Usuario</option>
+                    <input type="text" id="user_name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm px-3 py-2" placeholder="Buscar usuario..." list="usersList" onchange="setUser('user_id', 'user_name')" value="{{ $horario->user->name }}" required>
+                    <datalist id="usersList">
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ $horario->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                            <option value="{{ $user->name }}" data-id="{{ $user->id }}"></option>
                         @endforeach
-                    </select>
+                    </datalist>
+                    <input type="hidden" name="user_id" id="user_id" value="{{ $horario->user_id }}">
                 </div>
                 <div>
                     <label for="materia_id" class="block text-sm font-medium text-gray-700">Materia</label>
-                    <select name="materia_id" id="materia_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
-                        <option value="">Seleccionar Materia</option>
+                    <input type="text" id="materia_name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm px-3 py-2" placeholder="Buscar materia..." list="materiasList" onchange="setMateria('materia_id', 'materia_name')" value="{{ $horario->materia->nombre }}" required>
+                    <datalist id="materiasList">
                         @foreach($materias as $materia)
-                            <option value="{{ $materia->id }}" {{ $horario->materia_id == $materia->id ? 'selected' : '' }}>{{ $materia->nombre }}</option>
+                            <option value="{{ $materia->nombre }}" data-id="{{ $materia->id }}"></option>
                         @endforeach
-                    </select>
+                    </datalist>
+                    <input type="hidden" name="materia_id" id="materia_id" value="{{ $horario->materia_id }}">
                 </div>
                 <div>
                     <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora Inicio</label>
@@ -61,3 +63,53 @@
     </div>
 </div>
 @endsection
+
+<script>
+    function setUser(hiddenId, inputName) {
+        const input = document.getElementById(inputName);
+        const hidden = document.getElementById(hiddenId);
+        const datalist = document.getElementById('usersList');
+        
+        if (input.value) {
+            const option = Array.from(datalist.options).find(opt => opt.value === input.value);
+            if (option && option.dataset.id) {
+                hidden.value = option.dataset.id;
+            } else {
+                hidden.value = '';
+            }
+        } else {
+            hidden.value = '';
+        }
+    }
+
+    function setMateria(hiddenId, inputName) {
+        const input = document.getElementById(inputName);
+        const hidden = document.getElementById(hiddenId);
+        const datalist = document.getElementById('materiasList');
+        
+        if (input.value) {
+            const option = Array.from(datalist.options).find(opt => opt.value === input.value);
+            if (option && option.dataset.id) {
+                hidden.value = option.dataset.id;
+            } else {
+                hidden.value = '';
+            }
+        } else {
+            hidden.value = '';
+        }
+    }
+
+    // Ocultar mensajes de alerta automáticamente después de 4 segundos
+    document.addEventListener('DOMContentLoaded', function() {
+        const alertSuccess = document.getElementById('alert-success');
+        if (alertSuccess) {
+            setTimeout(function() {
+                alertSuccess.style.opacity = '0';
+                alertSuccess.style.transition = 'opacity 0.3s ease-out';
+                setTimeout(function() {
+                    alertSuccess.style.display = 'none';
+                }, 300);
+            }, 4000);
+        }
+    });
+</script>

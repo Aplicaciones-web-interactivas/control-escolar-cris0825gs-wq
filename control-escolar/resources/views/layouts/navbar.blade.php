@@ -1,49 +1,22 @@
-<nav class="bg-white shadow">
-    <div class="container mx-auto px-4 py-3">
-        <div class="flex justify-between items-center">
-            <a href="/" class="text-xl font-bold text-gray-800">Control Escolar</a>
-            <div class="hidden md:flex items-center space-x-4">
-                @auth
-                    <a href="/home" class="text-gray-600 hover:text-gray-800 {{ request()->is('home') ? 'font-semibold text-gray-900' : '' }}">Home</a>
-                    <a href="/dashboard" class="text-gray-600 hover:text-gray-800 {{ request()->is('dashboard') ? 'font-semibold text-gray-900' : '' }}">Dashboard</a>
-                    <a href="/materias" class="text-gray-600 hover:text-gray-800 {{ request()->is('materias') ? 'font-semibold text-gray-900' : '' }}">Materias</a>
-                    <a href="/horarios" class="text-gray-600 hover:text-gray-800 {{ request()->is('horarios') ? 'font-semibold text-gray-900' : '' }}">Horarios</a>
-                    <a href="/grupos" class="text-gray-600 hover:text-gray-800 {{ request()->is('grupos') ? 'font-semibold text-gray-900' : '' }}">Grupos</a>
-                    <a href="/inscripciones" class="text-gray-600 hover:text-gray-800 {{ request()->is('inscripciones') ? 'font-semibold text-gray-900' : '' }}">Inscripciones</a>
-                    <a href="/calificaciones" class="text-gray-600 hover:text-gray-800 {{ request()->is('calificaciones') ? 'font-semibold text-gray-900' : '' }}">Calificaciones</a>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Logout</button>
-                    </form>
-                @else
-                    <a href="/register" class="text-gray-600 hover:text-gray-800">Register</a>
-                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-800">Login</a>
-                @endauth
-            </div>
-            <div class="md:hidden">
-                <button id="menu-toggle" class="text-gray-600 hover:text-gray-800 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
+<nav class="w-64 bg-blue-900 shadow h-full fixed left-0 top-0 overflow-y-auto">
+    <div class="p-4">
+        <a href="/" class="text-xl font-bold text-white block mb-4">CONTROL ESCOLAR</a>
+        <div class="space-y-2 ">
             @auth
-                <a href="/home" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('home') ? 'font-semibold text-gray-900' : '' }}">Home</a>
-                <a href="/dashboard" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('dashboard') ? 'font-semibold text-gray-900' : '' }}">Dashboard</a>
-                <a href="/materias" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('materias') ? 'font-semibold text-gray-900' : '' }}">Materias</a>
-                <a href="/horarios" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('horarios') ? 'font-semibold text-gray-900' : '' }}">Horarios</a>
-                <a href="/grupos" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('grupos') ? 'font-semibold text-gray-900' : '' }}">Grupos</a>
-                <a href="/inscripciones" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('inscripciones') ? 'font-semibold text-gray-900' : '' }}">Inscripciones</a>
-                <a href="/calificaciones" class="block py-2 text-gray-600 hover:text-gray-800 {{ request()->is('calificaciones') ? 'font-semibold text-gray-900' : '' }}">Calificaciones</a>
-                <form action="{{ route('logout') }}" method="POST" class="mt-2">
+                <a href="/home" class="block py-2 px-4 {{ request()->is('home') ? 'font-semibold text-blue-900 bg-gray-200 rounded-lg' : 'text-white hover:text-blue-900 hover:bg-gray-100 rounded-lg' }}"><i class="fa-solid fa-house m-2"></i>Home</a>
+                <a href="/dashboard" class="block py-2 px-4 {{ request()->is('dashboard') ? 'font-semibold text-blue-900 bg-gray-200 rounded-lg' : 'text-white hover:text-blue-900 hover:bg-gray-100 rounded-lg' }}"><i class="fa-solid fa-chart-bar m-2"></i>Dashboard</a>
+                <a href="/materias" class="block py-2 px-4 {{ request()->is('materias*') ? 'font-semibold text-blue-900 bg-gray-200 rounded-lg' : 'text-white hover:text-blue-900 hover:bg-gray-100 rounded-lg' }}"><i class="fa-solid fa-book m-2"></i>Materias</a>
+                <a href="/horarios" class="block py-2 px-4 {{ request()->is('horarios*') ? 'font-semibold text-blue-900 bg-gray-200 rounded-lg' : 'text-white hover:text-blue-900 hover:bg-gray-100 rounded-lg' }}"><i class="fa-solid fa-clock m-2"></i>Horarios</a>
+                <a href="/grupos" class="block py-2 px-4 {{ request()->is('grupos*') ? 'font-semibold text-blue-900 bg-gray-200 rounded-lg' : 'text-white hover:text-blue-900 hover:bg-gray-100 rounded-lg' }}"><i class="fa-solid fa-users m-2"></i>Grupos</a>
+                <a href="/inscripciones" class="block py-2 px-4 {{ request()->is('inscripciones*') ? 'font-semibold text-blue-900 bg-gray-200 rounded-lg' : 'text-white hover:text-blue-900 hover:bg-gray-100 rounded-lg' }}"><i class="fa-solid fa-user m-2"></i>Inscripciones</a>
+                <a href="/calificaciones" class="block py-2 px-4 {{ request()->is('calificaciones*') ? 'font-semibold text-blue-900 bg-gray-200 rounded-lg' : 'text-white hover:text-blue-900 hover:bg-gray-100 rounded-lg' }}"><i class="fa-solid fa-star m-2"></i>Calificaciones</a>
+                <form action="{{ route('logout') }}" method="POST" class="mt-4">
                     @csrf
-                    <button type="submit" class="w-full bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600">Logout</button>
+                    <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
                 </form>
             @else
-                <a href="/register" class="block py-2 text-gray-600 hover:text-gray-800">Register</a>
-                <a href="{{ route('login') }}" class="block py-2 text-gray-600 hover:text-gray-800">Login</a>
+                <a href="/register" class="block py-2 px-4 text-white hover:text-gray-800 hover:bg-gray-100">Register</a>
+                <a href="{{ route('login') }}" class="block py-2 px-4 text-white hover:text-gray-800 hover:bg-gray-100">Login</a>
             @endauth
         </div>
     </div>

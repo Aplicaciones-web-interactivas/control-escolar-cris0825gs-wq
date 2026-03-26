@@ -48,4 +48,15 @@ class User extends Authenticatable
             'is_active' => 'boolean',
         ];
     }
+
+    // Relaciones
+    public function inscripciones()
+    {
+        return $this->hasMany(Inscripcion::class);
+    }
+
+    public function calificaciones()
+    {
+        return $this->hasMany(Calificacion::class);
+    }
 }
