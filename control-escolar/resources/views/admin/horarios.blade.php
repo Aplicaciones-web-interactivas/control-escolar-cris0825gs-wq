@@ -101,7 +101,7 @@
             <thead class="bg-blue-50">
                 <tr>
                     <th class="py-2 px-4 text-left">ID</th>
-                    <th class="py-2 px-4 text-left">Usuario</th>
+                    <th class="py-2 px-4 text-left">Nombre del Maestro</th>
                     <th class="py-2 px-4 text-left">Materia</th>
                     <th class="py-2 px-4 text-left">Hora Inicio</th>
                     <th class="py-2 px-4 text-left">Hora Fin</th>

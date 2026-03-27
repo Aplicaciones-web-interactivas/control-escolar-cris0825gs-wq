@@ -98,7 +98,7 @@ class AdminController extends Controller
 
         $horarios = $query->get();
         $materias = Materia::all();
-        $users = User::all();
+        $users = User::where('role', 'maestro')->get();
 
         $usuarioFiltro = $request->input('filter_user', '');
         $materiaFiltro = $request->input('filter_materia', '');
@@ -125,6 +125,11 @@ class AdminController extends Controller
             'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
         ]);
 
+        $user = User::find($request->user_id);
+        if ($user->role !== 'maestro') {
+            return redirect()->back()->withErrors('Solo se pueden asignar horarios a maestros.');
+        }
+
         $nuevoHorario = new Horario();
         $nuevoHorario->user_id = $request->user_id;
         $nuevoHorario->materia_id = $request->materia_id;
@@ -150,7 +155,7 @@ class AdminController extends Controller
     {
         $horario = Horario::find($id);
         $materias = Materia::all();
-        $users = User::all();
+        $users = User::where('role', 'maestro')->get();
         return view('admin.modificaHorario')->with(['horario' => $horario, 'materias' => $materias, 'users' => $users]);
     }
 
@@ -162,6 +167,11 @@ class AdminController extends Controller
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
         ]);
+
+        $user = User::find($request->user_id);
+        if ($user->role !== 'maestro') {
+            return redirect()->back()->withErrors('Solo se pueden asignar horarios a maestros.');
+        }
 
         $horarioEditar = Horario::find($id);
         if ($horarioEditar != null){

@@ -54,6 +54,15 @@
 </div>
 
 <div>
+<label class="text-sm text-gray-600">Tipo de usuario</label>
+<select name="role" class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+    <option value="alumno" {{ old('role') === 'alumno' ? 'selected' : '' }}>Alumno</option>
+    <option value="maestro" {{ old('role') === 'maestro' ? 'selected' : '' }}>Maestro</option>
+</select>
+@error('role')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+</div>
+
+<div>
 <label class="text-sm text-gray-600">Confirmar contraseña</label>
 <input 
     type="password"

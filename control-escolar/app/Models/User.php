@@ -6,6 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Inscripcion;
+use App\Models\Calificacion;
+use App\Models\Grupo;
+use App\Models\Horario;
+use App\Models\Tarea;
+use App\Models\Entrega;
 
 class User extends Authenticatable
 {
@@ -58,5 +64,20 @@ class User extends Authenticatable
     public function calificaciones()
     {
         return $this->hasMany(Calificacion::class);
+    }
+
+    public function gruposACargo()
+    {
+        return $this->hasManyThrough(Grupo::class, Horario::class, 'user_id', 'horario_id');
+    }
+
+    public function tareasAsignadas()
+    {
+        return $this->hasMany(Tarea::class, 'maestro_id');
+    }
+
+    public function tareasEntregadas()
+    {
+        return $this->hasMany(Entrega::class, 'alumno_id');
     }
 }

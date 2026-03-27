@@ -35,13 +35,14 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'clave_institucional' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|in:alumno,maestro',
         ]);
 
         $user = User::create([
             'name' => $data['name'],
             'clave_institucional' => $data['clave_institucional'],
             'password' => Hash::make($data['password']),
-            'role' => 'user',
+            'role' => $data['role'],
             'is_active' => true,
         ]);
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('clave_institucional')->unique();
             $table->string('password');
-            $table->string('role')->defaul('user');//cada uno de los que se registren sean usuarios
+            $table->string('role')->default('user'); // cada uno de los que se registren sean usuarios
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
